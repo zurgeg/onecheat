@@ -24,6 +24,7 @@ Cheat downloader for CTGP-R (My Stuff), 3DS, DSi, and Riivolution (Wii)
 - Music Park
 - First public release
 ### Revision 1.4:
+- Miiverse Revival through rverse
 - Future Release
 - Unstub AR DSi
 - Unstub Riivolution
