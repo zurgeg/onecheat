@@ -23,6 +23,7 @@ Rev1.3:
 - First public release
 Rev1.4:
 - Future Release
+- Miiverse Revival Installer
 - Unstub AR DSi
 - Unstub Riivolution
 - Mario Kart Wii (through Riivolution)
@@ -32,20 +33,42 @@ ctglinks = {'Music Park': 'http://avsys.xyz/files/CTs/3DS%20Music%20Park/v2.0/ra
 links = {'New Super Mario Bros. 2':'https://github.com/FlagBrew/Sharkive/raw/master/3ds/000400000007AE00.txt','New Super Mario Bros. 2 Gold Edition':'https://github.com/FlagBrew/Sharkive/raw/master/3ds/0004000000137E00.txt','Super Smash Bros. for 3DS':'https://github.com/FlagBrew/Sharkive/raw/master/3ds/00040000000EDF00.txt'}
 tids = {'New Super Mario Bros. 2':'000400000007AE00','New Super Mario Bros. 2 Gold Edition':'0004000000137E00','Super Smash Bros. for 3DS':'00040000000EDF00'}
 def ds3download(lumaloc):
-    a = get(links[gamevar.get()])
-    downloadloc = lumaloc + 'luma/titles/' + tids[gamevar.get()] + '/cheats.txt'
-    if not os.path.exists(lumaloc + 'luma'):
-        print('Luma3DS is not installed to this directory!')
-        exit()
-    if not os.path.exists(lumaloc + 'luma/titles'):
-        os.mkdir(lumaloc + 'luma/titles')
-    if not os.path.exists(lumaloc + 'luma/titles/' + tids[gamevar.get()]):
-        os.mkdir(lumaloc + 'luma/titles/' + tids[gamevar.get()])
-    #print(a.content)
-    f = open(downloadloc,'wb')
-    f.write(a.content)
-    f.close()
-    print('Cheat Downloaded!')
+    if gamevar.get() == 'Miiverse':
+        # Perform special steps to install rverse
+        if not os.path.exists(lumaloc + 'luma'):
+            print('Luma3DS is not installed to this directory!')
+            exit()
+    
+        if not os.path.exists(lumaloc + 'luma/titles'):
+            os.mkdir(lumaloc + 'luma/titles')
+        if not os.path.exists(lumaloc + 'luma/titles/' + '000400300000BD02'):
+            os.mkdir(lumaloc + 'luma/titles/' + '000400300000BD02')
+        a = get('https://github.com/zurgeg/onecheat-rverse/raw/master/code.ips')
+        f = open(lumaloc + 'luma/titles/' + '000400300000BD02/code.ips','wb')
+        f.write(a.content)
+        f.close()
+        b = get('https://github.com/zurgeg/onecheat-rverse/raw/master/rev.pem')
+        f = open(lumaloc + '3ds/rev.pem','wb')
+        f.write(b.content)
+        f.close()
+        print('Cheat Downloaded!')
+    else:
+        
+        a = get(links[gamevar.get()])
+        downloadloc = lumaloc + 'luma/titles/' + tids[gamevar.get()] + '/cheats.txt'
+        if not os.path.exists(lumaloc + 'luma'):
+            print('Luma3DS is not installed to this directory!')
+            exit()
+        
+        if not os.path.exists(lumaloc + 'luma/titles'):
+            os.mkdir(lumaloc + 'luma/titles')
+        if not os.path.exists(lumaloc + 'luma/titles/' + tids[gamevar.get()]):
+            os.mkdir(lumaloc + 'luma/titles/' + tids[gamevar.get()])
+        #print(a.content)
+        f = open(downloadloc,'wb')
+        f.write(a.content)
+        f.close()
+        print('Cheat Downloaded!')
 def dsidownload(twlmloc):
     # Stub
     ...
@@ -70,7 +93,7 @@ def ctgdownload(ctgploc):
 def choosegame():
     global gamevar
     
-    ds3choices = ['New Super Mario Bros. 2','New Super Mario Bros. 2 Gold Edition','Super Smash Bros. for 3DS']
+    ds3choices = ['New Super Mario Bros. 2','New Super Mario Bros. 2 Gold Edition','Super Smash Bros. for 3DS','Miiverse']
     dsichoices = ['None right now']
     riichoices = ['None right now']
     mschoices = ['Music Park']
@@ -123,14 +146,6 @@ ok = Button(rootframe,text='Next',command=choosegame)
 ok.grid(column = 0, row = 2)
 
 gamevar = StringVar(root)
-
-    
-        
-
-
-
-root.mainloop()
-
 
     
         
