@@ -42,8 +42,8 @@ def ds3download(lumaloc):
     if not os.path.exists(lumaloc + 'luma/titles/' + tids[gamevar.get()]):
         os.mkdir(lumaloc + 'luma/titles/' + tids[gamevar.get()])
     #print(a.content)
-    f = open(downloadloc,'w')
-    f.write(a.content.decode("utf-8"))
+    f = open(downloadloc,'wb')
+    f.write(a.content)
     f.close()
     print('Cheat Downloaded!')
 def dsidownload(twlmloc):
@@ -123,6 +123,14 @@ ok = Button(rootframe,text='Next',command=choosegame)
 ok.grid(column = 0, row = 2)
 
 gamevar = StringVar(root)
+
+    
+        
+
+
+
+root.mainloop()
+
 
     
         
