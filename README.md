@@ -1,6 +1,11 @@
 # onecheat
 Cheat downloader for CTGP-R (My Stuff), 3DS, DSi, and Riivolution (Wii)
 
+
+**Needs luma3ds for 3DS, follow [this](https://3ds.hacks.guide/) guide to install it**
+**Needs CTGP-R for My Stuff, follow [this](https://www.chadsoft.co.uk/install-guide/) guide to install it**
+**DSi *will* need twilight menu++, I can't find any cheats for it though**
+**Riivolution needs Riivolution installed to The Homebrew Channel**
 ## Supported Games
 - New Super Mario Bros. 2 Gold Edition
 - Super Smash Bros. for 3DS
