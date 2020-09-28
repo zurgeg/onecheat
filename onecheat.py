@@ -4,6 +4,9 @@ from tkinter.ttk import Combobox
 from requests import get
 import os.path
 import os
+from zipfile import ZipFile
+from threading import Thread
+# AR Codes
 '''
 Revision List:
 Rev1.0:
@@ -22,12 +25,14 @@ Rev1.3:
 - Music Park
 - First public release
 Rev1.4:
-- Future Release
 - Miiverse Revival Installer
-- Unstub AR DSi
-- Unstub Riivolution
+- Unstubbed Riivolution
+- Removed AR DSi Support Stub
 - Mario Kart Wii (through Riivolution)
 '''
+
+riilinks = {'Mario Kart Wii (OneCheat SuperPack)': 'https://github.com/zurgeg/onecheats-mariokartwii-superpack/releases/download/v1.0/OneCheat.s.Mario.Kart.Wii.Super.Pack.zip'}
+
 ctglocs = {'Music Park': 'rainbow_course.szs'}
 ctglinks = {'Music Park': 'http://avsys.xyz/files/CTs/3DS%20Music%20Park/v2.0/rainbow_course.szs'}
 links = {'New Super Mario Bros. 2':'https://github.com/FlagBrew/Sharkive/raw/master/3ds/000400000007AE00.txt','New Super Mario Bros. 2 Gold Edition':'https://github.com/FlagBrew/Sharkive/raw/master/3ds/0004000000137E00.txt','Super Smash Bros. for 3DS':'https://github.com/FlagBrew/Sharkive/raw/master/3ds/00040000000EDF00.txt'}
@@ -73,8 +78,26 @@ def dsidownload(twlmloc):
     # Stub
     ...
 def riidownload(riiloc):
-    # Stub
-    ...
+    # Unstubbed.
+    print('Downloading!')
+    a = get(riilinks[gamevar.get()])
+    print('Downloaded!')
+    if not os.path.exists(riiloc + 'riivolution'):
+        print('Riivolution not installed!')
+        exit()
+    if gamevar.get() == 'Mario Kart Wii (OneCheat SuperPack)':
+        
+        f = open('pack.zip','wb')
+        f.write(a.content)
+        f.close()
+        zipfile = ZipFile('pack.zip')
+        zipfile.extract('MarioKartWiixDS',path=riiloc)
+        zipfile.extract('Cosmic Kart',path=riiloc)
+        zipfile.extract('riivolution/Cosmic Kart 1.0 - America.xml',path=riiloc + 'riivolution')
+        zipfile.extract('riivolution/Mario Kart Wii x DS NTSC-U.xml',path=riiloc + 'riivolution')
+        zipfile.close()
+        
+        
 def ctgdownload(ctgploc):
     a = get(ctglinks[gamevar.get()])
     if not os.path.exists(ctgploc + 'ctgpr/My Stuff'):
@@ -89,13 +112,13 @@ def ctgdownload(ctgploc):
     
     
     
-    
+
 def choosegame():
     global gamevar
     
     ds3choices = ['New Super Mario Bros. 2','New Super Mario Bros. 2 Gold Edition','Super Smash Bros. for 3DS','Miiverse']
     dsichoices = ['None right now']
-    riichoices = ['None right now']
+    riichoices = ['Mario Kart Wii (OneCheat SuperPack)']
     mschoices = ['Music Park']
     if consolevar.get() == '3DS':
         gamechoices = ds3choices
@@ -106,7 +129,7 @@ def choosegame():
         ok3.grid(column = 0, row = 7)
     elif consolevar.get() == 'DSi (AR)':
         gamechoices = dsichoices
-        gamevar.set('None right now')
+        gamevar.set('Action Replay support will no longer be added!')
         gamedropdown = Combobox(rootframe, width=50, textvariable=gamevar, values=gamechoices)
         gamedropdown.grid(column = 0, row = 3)
     elif consolevar.get() == 'CTGP-R':
@@ -118,9 +141,12 @@ def choosegame():
         ok3.grid(column = 0, row = 7)
     else:
         gamechoices = riichoices
-        gamevar.set('None right now')
+        gamevar.set('Mario Kart Wii (OneCheat SuperPack)')
         gamedropdown = Combobox(rootframe, width=50, textvariable=gamevar, values=gamechoices)
         gamedropdown.grid(column = 0, row = 3)
+        riithread = Thread(name='RiiThread',target=lambda: riidownload(sdcardloc.get()))
+        ok3 = Button(rootframe, text='Download!', command = riithread.start)  
+        ok3.grid(column = 0, row = 7)
     sdcardlabel = Label(rootframe,text='SD Card Location')
     sdcardloc = Entry()
     sdcardlabel.grid(column = 0, row = 4)
@@ -153,3 +179,4 @@ gamevar = StringVar(root)
 
 
 root.mainloop()
+
